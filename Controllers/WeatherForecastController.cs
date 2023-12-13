@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using SeaBaseAPI.Models;
 
 namespace SeaBaseAPI.Controllers;
 

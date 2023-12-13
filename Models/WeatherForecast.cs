@@ -1,4 +1,4 @@
-namespace SeaBaseAPI;
+namespace SeaBaseAPI.Models;
 
 public class WeatherForecast
 {

@@ -7,4 +7,4 @@
 </p>
 <hr />
 
-Communicate with a sub-sea base using a simple API with a sci-fi theme and basic CRUD functionality.
+Communicate with a subsea base using a simple API with a sci-fi theme and basic CRUD functionality.

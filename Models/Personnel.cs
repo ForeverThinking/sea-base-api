@@ -1,15 +1,12 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SeaBaseAPI;
 
-public class Personnel
+public sealed class Personnel
 {
     [Key]
-    public int Id { get; set; }
-    [Required(ErrorMessage = "Name is required")]
-    public string Name { get; set; } = default!;
-    public Department Department { get; set; }
-    [DisplayName("Is Deployed?")]
-    public bool IsDeployed { get; set; } = false;
+    public int Id { get; init; }
+    public string Name { get; init; } = default!;
+    public Department Department { get; init; }
+    public bool IsDeployed { get; init; } = false;
 }

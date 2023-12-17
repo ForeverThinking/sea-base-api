@@ -5,6 +5,7 @@ namespace SeaBaseAPI;
 public interface IPersonnelService
 {
     public Task<IEnumerable<PersonnelDto>> GetAllPersonnelAsync();
+    public Task AddPersonnelAsync(PersonnelDto dto);
 }
 
 public sealed class PersonnelService : IPersonnelService
@@ -24,4 +25,17 @@ public sealed class PersonnelService : IPersonnelService
             IsDeployed = person.IsDeployed 
         })
         .ToArrayAsync();
+
+    public async Task AddPersonnelAsync(PersonnelDto dto)
+    {
+        var personnel = new Personnel()
+        {
+            Name = dto.Name,
+            Department = dto.Department,
+            IsDeployed = dto.IsDeployed
+        };
+
+        await _context.Personnel.AddAsync(personnel);
+        await _context.SaveChangesAsync();
+    }
 }

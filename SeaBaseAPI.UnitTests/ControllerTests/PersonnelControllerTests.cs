@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using SeaBaseAPI;
 
@@ -31,5 +32,43 @@ public sealed class PersonnelControllerTests
 
         // Assert
         result.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task AddPersonnel_PostWithValidModel_Returns200Ok()
+    {
+        // Arrange
+        var dto = new PersonnelDto()
+        {
+            Name = "test1",
+            Department = Department.Maintenance,
+            IsDeployed = true,
+        };
+    
+        // Act
+        var result = await _underTest.AddPersonnel(dto);
+    
+        // Assert
+        result.Should().BeOfType<OkResult>();
+    }
+
+    [Fact]
+    public async Task AddPersonnel_PostWithInvalidModel_Returns400BadRequest()
+    {
+        // Arrange
+        var dto = new PersonnelDto()
+        {
+            Name = "test1",
+            Department = Department.Maintenance,
+            IsDeployed = true,
+        };
+
+        _underTest.ModelState.AddModelError("test", "test");
+
+        // Act
+        var result = await _underTest.AddPersonnel(dto);
+
+        // Assert
+        result.Should().BeOfType<BadRequestResult>();
     }
 }

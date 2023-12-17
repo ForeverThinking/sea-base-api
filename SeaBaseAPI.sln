@@ -5,9 +5,9 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SeaBaseAPI", "SeaBaseAPI\SeaBaseAPI.csproj", "{CAA39288-E4CF-4069-9D33-CCB32143B595}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBaseAPIUnitTests", "SeaBaseAPIUnitTests\SeaBaseAPIUnitTests.csproj", "{248B9875-A9E2-412A-B9C0-75D3A1C355AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBaseAPI.UnitTests", "SeaBaseAPI.UnitTests\SeaBaseAPI.UnitTests.csproj", "{248B9875-A9E2-412A-B9C0-75D3A1C355AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBaseAPIIntegrationTests", "SeaBaseAPIIntegrationTests\SeaBaseAPIIntegrationTests.csproj", "{0CB385E8-6CF7-4770-9106-C680AF8BB01A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeaBaseAPI.IntegrationTests", "SeaBaseAPI.IntegrationTests\SeaBaseAPI.IntegrationTests.csproj", "{0CB385E8-6CF7-4770-9106-C680AF8BB01A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using SeaBaseAPI;
 
-namespace SeaBaseAPI.IntegrationTests.ServiceTests;
+namespace SeaBaseAPIIntegrationTests.ServiceTests;
 
 public sealed class PersonnelServiceTests : IClassFixture<ServiceTestsBase>, IDisposable
 {

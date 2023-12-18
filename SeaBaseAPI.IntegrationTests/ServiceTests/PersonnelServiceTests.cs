@@ -1,9 +1,8 @@
 ﻿using FluentAssertions;
-using SeaBaseAPI;
 
 namespace SeaBaseAPI.IntegrationTests.ServiceTests;
 
-public sealed class PersonnelServiceTests : TestsUsingSqlite
+public sealed class PersonnelServiceTests : TestUsingSqlite
 {
     private readonly PersonnelService _underTest;
 

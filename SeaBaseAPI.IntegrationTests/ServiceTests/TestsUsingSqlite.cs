@@ -23,7 +23,12 @@ public class TestUsingSqlite : IDisposable
 
     public void Dispose()
     {
-        _connection.Close();
+        Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        _connection.Close();
     }
 }

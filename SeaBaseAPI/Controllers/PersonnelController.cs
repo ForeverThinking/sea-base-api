@@ -3,7 +3,7 @@
 namespace SeaBaseAPI;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public sealed class PersonnelController : ControllerBase
 {
     private readonly IPersonnelService _personnelService;
@@ -34,4 +34,10 @@ public sealed class PersonnelController : ControllerBase
         await _personnelService.AddPersonnelAsync(personnel);
         return Ok();
     }
+
+    [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> DeletePersonnel([FromBody] int id) 
+        => await _personnelService.DeletePersonnelAsync(id) ? Ok() : BadRequest();
 }

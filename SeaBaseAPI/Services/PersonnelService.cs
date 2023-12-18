@@ -6,6 +6,7 @@ public interface IPersonnelService
 {
     public Task<IEnumerable<PersonnelDto>> GetAllPersonnelAsync();
     public Task AddPersonnelAsync(PersonnelDto dto);
+    public Task<bool> DeletePersonnelAsync(int id);
 }
 
 public sealed class PersonnelService : IPersonnelService
@@ -18,11 +19,11 @@ public sealed class PersonnelService : IPersonnelService
     }
 
     public async Task<IEnumerable<PersonnelDto>> GetAllPersonnelAsync()
-        => await _context.Personnel.Select(person => new PersonnelDto 
-        { 
-            Name = person.Name, 
-            Department = person.Department, 
-            IsDeployed = person.IsDeployed 
+        => await _context.Personnel.Select(person => new PersonnelDto
+        {
+            Name = person.Name,
+            Department = person.Department,
+            IsDeployed = person.IsDeployed
         })
         .ToArrayAsync();
 
@@ -37,5 +38,19 @@ public sealed class PersonnelService : IPersonnelService
 
         await _context.Personnel.AddAsync(personnel);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<bool> DeletePersonnelAsync(int id)
+    {
+        var staff = _context.Personnel.Find(id);
+
+        if (staff is not null)
+        {
+            _context.Personnel.Remove(staff);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        return false;
     }
 }

@@ -13,8 +13,13 @@ public sealed class PersonnelController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<PersonnelDto>> GetAllPersonnel()
-        =>  await _personnelService.GetAllPersonnelAsync();
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllPersonnel()
+    {
+        var personnel = await _personnelService.GetAllPersonnelAsync();
+
+        return Ok(personnel);
+    }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK)]

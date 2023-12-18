@@ -31,7 +31,10 @@ public sealed class PersonnelControllerTests
         var result = await _underTest.GetAllPersonnel();
 
         // Assert
-        result.Should().HaveCount(2);
+        var okResult = result as OkObjectResult;
+        var data = okResult?.Value as IEnumerable<PersonnelDto>;
+
+        data.Should().HaveCount(2);
     }
 
     [Fact]

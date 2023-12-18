@@ -49,4 +49,46 @@ public sealed class PersonnelServiceTests : TestUsingSqlite
         Context.Personnel.Should().HaveCount(1);
         Context.Personnel.SingleOrDefault(p => p.Name == dto.Name).Should().NotBeNull();
     }
+
+    [Fact]
+    public async Task DeletePersonnelAsync_PostId_ReturnsTrue()
+    {
+        // Arrange
+        var personnel = new Personnel()
+        {
+            Id = 1,
+            Name = "Test 1",
+            Department = Department.Logistics,
+            IsDeployed = false,
+        };
+
+        Context.Personnel.Add(personnel);
+
+        // Act
+        var result = await _underTest.DeletePersonnelAsync(1);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task DeletePersonnelAsync_PostInvalidId_ReturnsFalse()
+    {
+        // Arrange
+        var personnel = new Personnel()
+        {
+            Id = 1,
+            Name = "Test 1",
+            Department = Department.Logistics,
+            IsDeployed = false,
+        };
+
+        Context.Personnel.Add(personnel);
+
+        // Act
+        var result = await _underTest.DeletePersonnelAsync(2);
+
+        // Assert
+        result.Should().BeFalse();
+    }
 }

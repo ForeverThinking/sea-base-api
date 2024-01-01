@@ -7,6 +7,7 @@ public interface IPersonnelService
     public Task<IEnumerable<PersonnelDto>> GetAllPersonnelAsync();
     public Task AddPersonnelAsync(PersonnelDto dto);
     public Task<bool> DeletePersonnelAsync(int id);
+    public Task<PersonnelDto?> GetPersonAsync(int id);
 }
 
 public sealed class PersonnelService : IPersonnelService
@@ -52,5 +53,24 @@ public sealed class PersonnelService : IPersonnelService
         }
 
         return false;
+    }
+
+    public async Task<PersonnelDto?> GetPersonAsync(int id)
+    {
+        var staff = await _context.Personnel.FindAsync(id);
+        
+        if (staff is not null)
+        {
+            PersonnelDto person = new()
+            {
+                Name = staff.Name,
+                Department = staff.Department,
+                IsDeployed = staff.IsDeployed
+            };
+
+            return person;
+        }
+
+        return null;
     }
 }

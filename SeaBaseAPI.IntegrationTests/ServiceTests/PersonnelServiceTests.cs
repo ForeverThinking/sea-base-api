@@ -91,4 +91,50 @@ public sealed class PersonnelServiceTests : TestUsingSqlite
         // Assert
         result.Should().BeFalse();
     }
+
+    [Fact]
+    public async Task GetPersonAsync_UsingValidId_ReturnsDto()
+    {
+        // Arrange
+        var testId = 1;
+
+        var personnel = new Personnel()
+        {
+            Id = 1,
+            Name = "Test 1",
+            Department = Department.Logistics,
+            IsDeployed = false,
+        };
+
+        Context.Personnel.Add(personnel);
+
+        // Act
+        var result = await _underTest.GetPersonAsync(testId);
+
+        // Assert
+        result.Should().BeOfType<PersonnelDto>();
+    }
+
+    [Fact]
+    public async Task GetPersonAsync_UsingInvalidId_ReturnsNull()
+    {
+        // Arrange
+        var testInvalidId = 100;
+
+        var personnel = new Personnel()
+        {
+            Id = 1,
+            Name = "Test 1",
+            Department = Department.Logistics,
+            IsDeployed = false,
+        };
+
+        Context.Personnel.Add(personnel);
+
+        // Act
+        var result = await _underTest.GetPersonAsync(testInvalidId);
+
+        // Assert
+        result.Should().BeNull();
+    }
 }

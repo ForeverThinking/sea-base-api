@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using SeaBaseAPI;
 
 namespace SeaBaseAPIUnitTests.ControllerTests;
@@ -47,10 +48,10 @@ public sealed class PersonnelControllerTests
             Department = Department.Maintenance,
             IsDeployed = true,
         };
-    
+
         // Act
         var result = await _underTest.AddPersonnel(dto);
-    
+
         // Assert
         result.Should().BeOfType<OkResult>();
     }
@@ -100,6 +101,46 @@ public sealed class PersonnelControllerTests
 
         // Act
         var result = await _underTest.DeletePersonnel(testId);
+
+        // Assert
+        result.Should().BeOfType<BadRequestResult>();
+    }
+
+    [Fact]
+    public async Task GetPerson_GetWithValidId_ReturnsOkWithResult()
+    {
+        // Arrange
+        int testId = 1;
+
+        PersonnelDto personnelDto = new()
+        {
+            Name = "Test1",
+            Department = Department.Research,
+            IsDeployed = false
+        };
+
+        _personnelServiceSub.GetPersonAsync(Arg.Any<int>()).Returns(personnelDto);
+
+        // Act
+        var result = await _underTest.GetPerson(testId);
+
+        // Assert
+        var okResult = result as OkObjectResult;
+        var data = okResult?.Value as PersonnelDto;
+
+        data.Should().BeEquivalentTo(personnelDto);
+    }
+
+    [Fact]
+    public async Task GetPerson_GetWithInvalidId_ReturnsBadRequest()
+    {
+        // Arrange
+        int testId = 1;
+
+        _personnelServiceSub.GetPersonAsync(Arg.Any<int>()).ReturnsNull();
+
+        // Act
+        var result = await _underTest.GetPerson(testId);
 
         // Assert
         result.Should().BeOfType<BadRequestResult>();

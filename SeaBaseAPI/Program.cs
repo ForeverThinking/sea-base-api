@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPersonnelService, PersonnelService>();
+builder.Services.AddScoped<ISubmersibleService, SubmersibleService>();
 builder.Services.AddDbContext<SeaBaseContext>(options 
     => options.UseNpgsql(connectionString: builder.Configuration["ConnectionString"]));
 

@@ -2,9 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using SeaBaseAPI;
 
-namespace SeaBaseAPIUnitTests.ControllerTests;
+namespace SeaBaseAPI.UnitTests.ControllerTests;
 
 public sealed class PersonnelControllerTests
 {

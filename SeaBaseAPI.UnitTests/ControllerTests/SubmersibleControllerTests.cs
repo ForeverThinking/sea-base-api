@@ -55,4 +55,26 @@ public sealed class SubmersibleControllerTests
         // Assert
         result.Should().BeOfType<BadRequestResult>();
     }
+
+    [Fact]
+    public async Task GetAllSubmersibles()
+    {
+        // Arrange
+        List<SubmersibleDto> submersibles = new()
+        {
+            new() { VesselName = "Test 1", IsDeployed = false, Pilot = null, Crew = null, Condition = 1.0 },
+            new() { VesselName = "Test 2", IsDeployed = true, Pilot = null, Crew = null, Condition = 0.95 }
+        };
+
+        _submersibleServiceSub.GetAllSubmersiblesAsync().Returns(submersibles);
+
+        // Act
+        var result = await _underTest.GetAllSubmersibles();
+
+        // Assert
+        var okResult = result as OkObjectResult;
+        var data = okResult?.Value as IEnumerable<SubmersibleDto>;
+
+        data.Should().HaveCount(2);
+    }
 }

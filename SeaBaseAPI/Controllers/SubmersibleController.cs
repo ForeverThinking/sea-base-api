@@ -26,4 +26,13 @@ public sealed class SubmersibleController : ControllerBase
         await _submersibleService.AddSubmersibleAsync(dto);
         return Ok();
     }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAllSubmersibles()
+    {
+        var submersibles = await _submersibleService.GetAllSubmersiblesAsync();
+
+        return Ok(submersibles);
+    }
 }

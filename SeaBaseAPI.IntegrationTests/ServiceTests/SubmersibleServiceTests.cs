@@ -31,4 +31,26 @@ public sealed class SubmersibleServiceTests : TestUsingSqlite
         Context.Submersibles.Should().HaveCount(1);
         Context.Submersibles.SingleOrDefault(s => s.VesselName == dto.VesselName).Should().NotBeNull();
     }
+
+    [Fact]
+    public async Task GetAllSubmersiblesAsync_Called_ReturnsCollectionData()
+    {
+        // Arrange
+        Context.Submersibles.AddRange(Enumerable.Range(1, 5).Select(x => new Submersible()
+        {
+            VesselName = "Test {x}",
+            IsDeployed = false,
+            Pilot = null,
+            Crew = null,
+            Condition = 0.98
+        }));
+
+        await Context.SaveChangesAsync();
+
+        // Act
+        var result = await _underTest.GetAllSubmersiblesAsync();
+
+        // Assert
+        result.Should().HaveCount(5);
+    }
 }

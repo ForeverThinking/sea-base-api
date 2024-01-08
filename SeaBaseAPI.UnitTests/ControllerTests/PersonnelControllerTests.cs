@@ -144,4 +144,36 @@ public sealed class PersonnelControllerTests
         // Assert
         result.Should().BeOfType<BadRequestResult>();
     }
+
+    [Fact]
+    public async Task UpdatePersonnel_PutWithValidModel_ReturnsOk()
+    {
+        // Arrange
+        int testId = 1;
+        PersonnelDto testDto = new PersonnelDto();
+
+        _personnelServiceSub.UpdatePersonnelAsync(Arg.Any<int>(), Arg.Any<PersonnelDto>()).Returns(true);
+
+        // Act
+        var result = await _underTest.UpdatePersonnel(testId, testDto);
+
+        // Assert
+        result.Should().BeOfType<OkResult>();
+    }
+
+    [Fact]
+    public async Task UpdatePersonnel_PutWithInvalidModel_ReturnsBadRequest()
+    {
+        // Arrange
+        int testId = 1;
+        PersonnelDto testDto = new PersonnelDto();
+
+        _personnelServiceSub.UpdatePersonnelAsync(Arg.Any<int>(), Arg.Any<PersonnelDto>()).Returns(false);
+
+        // Act
+        var result = await _underTest.UpdatePersonnel(testId, testDto);
+
+        // Assert
+        result.Should().BeOfType<BadRequestResult>();
+    }
 }

@@ -137,4 +137,66 @@ public sealed class PersonnelServiceTests : TestUsingSqlite
         // Assert
         result.Should().BeNull();
     }
+
+    [Fact]
+    public async Task UpdatePersonnelAsync_UsingValidId_ReturnsTrue()
+    {
+        // Arrange
+        var testId = 1;
+
+        var personnel = new Personnel()
+        {
+            Id = 1,
+            Name = "Test 1",
+            Department = Department.Logistics,
+            IsDeployed = false,
+        };
+
+        Context.Personnel.Add(personnel);
+        await Context.SaveChangesAsync();
+
+        var updatePersonnel = new PersonnelDto()
+        {
+            Name = "Test 2",
+            Department = Department.Research,
+            IsDeployed = false,
+        };
+
+        // Act
+        var result = await _underTest.UpdatePersonnelAsync(testId, updatePersonnel);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task UpdatePersonnelAsync_UsingInvalidId_ReturnsFalse()
+    {
+        // Arrange
+        var testId = 5;
+
+        var personnel = new Personnel()
+        {
+            Id = 1,
+            Name = "Test 1",
+            Department = Department.Logistics,
+            IsDeployed = false,
+        };
+
+        Context.Personnel.Add(personnel);
+        await Context.SaveChangesAsync();
+
+        var updatePersonnel = new PersonnelDto()
+        {
+            Name = "Test 2",
+            Department = Department.Research,
+            IsDeployed = false,
+        };
+
+        // Act
+        var result = await _underTest.UpdatePersonnelAsync(testId, updatePersonnel);
+
+        // Assert
+        result.Should().BeFalse();
+    }
 }

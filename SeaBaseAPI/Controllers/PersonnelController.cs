@@ -55,4 +55,10 @@ public sealed class PersonnelController : ControllerBase
 
         return BadRequest();
     }
+
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdatePersonnel([FromRoute] int id, [FromBody] PersonnelDto dto)
+        => await _personnelService.UpdatePersonnelAsync(id, dto) ? Ok() : BadRequest();
 }

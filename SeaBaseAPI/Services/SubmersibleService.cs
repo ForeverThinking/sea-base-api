@@ -6,6 +6,7 @@ public interface ISubmersibleService
 {
     public Task AddSubmersibleAsync(SubmersibleDto dto);
     public Task<ICollection<SubmersibleDto>> GetAllSubmersiblesAsync();
+    public Task<SubmersibleDto?> GetSingleSubmersibleAsync(int id);
 }
 
 public sealed class SubmersibleService : ISubmersibleService
@@ -22,10 +23,8 @@ public sealed class SubmersibleService : ISubmersibleService
         var submersible = new Submersible
         {
             VesselName = dto.VesselName,
-            IsDeployed = dto.IsDeployed,
             Pilot = dto.Pilot,
             Crew = dto.Crew,
-            Condition = dto.Condition
         };
 
         await _context.Submersibles.AddAsync(submersible);
@@ -42,4 +41,23 @@ public sealed class SubmersibleService : ISubmersibleService
             Condition = s.Condition
         })
         .ToListAsync();
+
+    public async Task<SubmersibleDto?> GetSingleSubmersibleAsync(int id)
+    {
+        var result = await _context.Submersibles.FindAsync(id);
+
+        if (result is not null)
+        {
+            return new SubmersibleDto
+            {
+                VesselName = result.VesselName,
+                Pilot = result.Pilot,
+                Crew = result.Crew,
+                IsDeployed = result.IsDeployed,
+                Condition = result.Condition
+            };
+        }
+
+        return null;
+    }
 }

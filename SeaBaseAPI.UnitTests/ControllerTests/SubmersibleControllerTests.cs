@@ -1,6 +1,8 @@
-﻿using FluentAssertions;
+﻿using System.Data.Common;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 
 namespace SeaBaseAPI.UnitTests.ControllerTests;
 
@@ -76,5 +78,47 @@ public sealed class SubmersibleControllerTests
         var data = okResult?.Value as IEnumerable<SubmersibleDto>;
 
         data.Should().HaveCount(2);
+    }
+
+    [Fact]
+    public async Task GetSubmersible_GetWithValidId_ReturnsOkWithResult()
+    {
+        // Arrange
+        int testId = 1;
+
+        var submersibleDto = new SubmersibleDto
+        {
+            VesselName = "test",
+            IsDeployed = false,
+            Pilot = null,
+            Crew = null,
+            Condition = 100
+        };
+
+        _submersibleServiceSub.GetSingleSubmersibleAsync(Arg.Any<int>()).Returns(submersibleDto);
+
+        // Act
+        var result = await _underTest.GetSubmersible(testId);
+
+        // Assert
+        var okResult = result as OkObjectResult;
+        var data = okResult?.Value as SubmersibleDto;
+
+        data.Should().BeEquivalentTo(submersibleDto);
+    }
+
+    [Fact]
+    public async Task GetSubmersible_GetWithInvalidId_ReturnsBadRequest()
+    {
+        // Arrange
+        int testId = 1;
+
+        _submersibleServiceSub.GetSingleSubmersibleAsync(Arg.Any<int>()).ReturnsNull();
+
+        // Act
+        var result = await _underTest.GetSubmersible(testId);
+
+        // Assert
+        result.Should().BeOfType<NotFoundResult>();
     }
 }

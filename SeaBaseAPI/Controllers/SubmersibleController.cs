@@ -35,4 +35,19 @@ public sealed class SubmersibleController : ControllerBase
 
         return Ok(submersibles);
     }
+
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetSubmersible(int id)
+    {
+        var submersible = await _submersibleService.GetSingleSubmersibleAsync(id);
+
+        if (submersible is not null)
+        {
+            return Ok(submersible);
+        }
+
+        return NotFound();
+    }
 }

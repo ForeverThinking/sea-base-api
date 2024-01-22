@@ -36,7 +36,6 @@ public sealed class PersonnelService : IPersonnelService
         {
             Name = dto.Name,
             Department = dto.Department,
-            IsDeployed = dto.IsDeployed
         };
 
         await _context.Personnel.AddAsync(personnel);
@@ -87,7 +86,6 @@ public sealed class PersonnelService : IPersonnelService
 
         currentPersonnel.Name = dto.Name;
         currentPersonnel.Department = dto.Department;
-        currentPersonnel.IsDeployed = dto.IsDeployed;
 
         try
         {

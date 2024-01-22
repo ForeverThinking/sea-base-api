@@ -53,4 +53,54 @@ public sealed class SubmersibleServiceTests : TestUsingSqlite
         // Assert
         result.Should().HaveCount(5);
     }
+
+    [Fact]
+    public async Task GetSingleSubmersibleAsync_UsingValidId_ReturnsDto()
+    {
+        // Arrange
+        var testId = 1;
+
+        var submersible = new Submersible
+        {
+            Id = 1,
+            VesselName = "Test",
+            IsDeployed = false,
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        Context.Submersibles.Add(submersible);
+
+        // Act
+        var result = await _underTest.GetSingleSubmersibleAsync(testId);
+
+        // Assert
+        result.Should().BeOfType<SubmersibleDto>();
+    }
+
+    [Fact]
+    public async Task GetSingleSubmersibleAsync_UsingInvalidId_ReturnsNull()
+    {
+        // Arrange
+        var testInvalidId = 100;
+
+        var submersible = new Submersible
+        {
+            Id = 1,
+            VesselName = "Test",
+            IsDeployed = false,
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        Context.Submersibles.Add(submersible);
+
+        // Act
+        var result = await _underTest.GetSingleSubmersibleAsync(testInvalidId);
+
+        // Assert
+        result.Should().BeNull();
+    }
 }

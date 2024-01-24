@@ -87,7 +87,7 @@ public sealed class PersonnelControllerTests
         var result = await _underTest.DeletePersonnel(testId);
 
         // Assert
-        result.Should().BeOfType<OkResult>();
+        result.Should().BeOfType<NoContentResult>();
     }
 
     [Fact]
@@ -142,7 +142,7 @@ public sealed class PersonnelControllerTests
         var result = await _underTest.GetPerson(testId);
 
         // Assert
-        result.Should().BeOfType<BadRequestResult>();
+        result.Should().BeOfType<NotFoundResult>();
     }
 
     [Fact]

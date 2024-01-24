@@ -121,4 +121,36 @@ public sealed class SubmersibleControllerTests
         // Assert
         result.Should().BeOfType<NotFoundResult>();
     }
+
+    [Fact]
+    public async Task UpdateSubmersible_PutWithValidModel_ReturnsOk()
+    {
+        // Arrange
+        int testId = 1;
+        SubmersibleDto testDto = new SubmersibleDto();
+
+        _submersibleServiceSub.UpdateSubmersibleAsync(Arg.Any<int>(), Arg.Any<SubmersibleDto>()).Returns(true);
+
+        // Act
+        var result = await _underTest.UpdateSubmersible(testId, testDto);
+
+        // Assert
+        result.Should().BeOfType<OkResult>();
+    }
+
+    [Fact]
+    public async Task UpdateSubmersible_PutWithInvalidModel_ReturnsBadRequest()
+    {
+        // Arrange
+        int testId = 1;
+        SubmersibleDto testDto = new SubmersibleDto();
+
+        _submersibleServiceSub.UpdateSubmersibleAsync(Arg.Any<int>(), Arg.Any<SubmersibleDto>()).Returns(false);
+
+        // Act
+        var result = await _underTest.UpdateSubmersible(testId, testDto);
+
+        // Assert
+        result.Should().BeOfType<BadRequestResult>();
+    }
 }

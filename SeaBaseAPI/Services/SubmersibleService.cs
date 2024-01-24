@@ -7,6 +7,7 @@ public interface ISubmersibleService
     public Task AddSubmersibleAsync(SubmersibleDto dto);
     public Task<ICollection<SubmersibleDto>> GetAllSubmersiblesAsync();
     public Task<SubmersibleDto?> GetSingleSubmersibleAsync(int id);
+    public Task<bool> UpdateSubmersibleAsync(int id, SubmersibleDto dto);
 }
 
 public sealed class SubmersibleService : ISubmersibleService
@@ -59,5 +60,29 @@ public sealed class SubmersibleService : ISubmersibleService
         }
 
         return null;
+    }
+
+    public async Task<bool> UpdateSubmersibleAsync(int id, SubmersibleDto dto)
+    {
+        var currentSubmersible = await _context.Submersibles.FindAsync(id);
+
+        if (currentSubmersible is null)
+        {
+            return false;
+        }
+
+        currentSubmersible.VesselName = dto.VesselName;
+
+        try
+        {
+            _context.Submersibles.Update(currentSubmersible);
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 }

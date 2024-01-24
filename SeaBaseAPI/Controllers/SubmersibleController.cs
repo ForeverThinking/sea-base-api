@@ -50,4 +50,10 @@ public sealed class SubmersibleController : ControllerBase
 
         return NotFound();
     }
+
+    [HttpPut("{id:int}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> UpdateSubmersible([FromRoute] int id, [FromBody] SubmersibleDto dto)
+         => await _submersibleService.UpdateSubmersibleAsync(id, dto) ? Ok() : BadRequest();
 }

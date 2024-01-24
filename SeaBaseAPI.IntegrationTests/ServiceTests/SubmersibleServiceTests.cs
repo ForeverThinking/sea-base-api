@@ -103,4 +103,64 @@ public sealed class SubmersibleServiceTests : TestUsingSqlite
         // Assert
         result.Should().BeNull();
     }
+
+    [Fact]
+    public async Task UpdateSubmersibleAsync_UsingValidId_ReturnsTrue()
+    {
+        // Arrange
+        var testId = 1;
+
+        var submersible = new Submersible
+        {
+            Id = 1,
+            VesselName = "test",
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        Context.Submersibles.Add(submersible);
+        await Context.SaveChangesAsync();
+
+        var updateSubmersible = new SubmersibleDto
+        {
+            VesselName = "updated test"
+        };
+
+        // Act
+        var result = await _underTest.UpdateSubmersibleAsync(testId, updateSubmersible);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task UpdateSubmersibleAsync_UsingInvalidId_ReturnsFalse()
+    {
+        // Arrange
+        var testId = 5;
+
+        var submersible = new Submersible
+        {
+            Id = 1,
+            VesselName = "test",
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        Context.Submersibles.Add(submersible);
+        await Context.SaveChangesAsync();
+
+        var updateSubmersible = new SubmersibleDto
+        {
+            VesselName = "updated test"
+        };
+
+        // Act
+        var result = await _underTest.UpdateSubmersibleAsync(testId, updateSubmersible);
+
+        // Assert
+        result.Should().BeFalse();
+    }
 }

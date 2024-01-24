@@ -36,14 +36,14 @@ public sealed class PersonnelController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeletePersonnel([FromBody] int id) 
-        => await _personnelService.DeletePersonnelAsync(id) ? Ok() : BadRequest();
+        => await _personnelService.DeletePersonnelAsync(id) ? NoContent() : BadRequest();
 
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> GetPerson([FromRoute] int id)
     {
         var person = await _personnelService.GetPersonAsync(id);
@@ -53,7 +53,7 @@ public sealed class PersonnelController : ControllerBase
             return Ok(person);
         }
 
-        return BadRequest();
+        return NotFound();
     }
 
     [HttpPut("{id:int}")]

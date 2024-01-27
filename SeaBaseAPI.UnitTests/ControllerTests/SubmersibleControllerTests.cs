@@ -17,7 +17,7 @@ public sealed class SubmersibleControllerTests
     }
 
     [Fact]
-    public async Task AddSubmersible_PostWithValidModel_Returns200Ok()
+    public async Task AddSubmersible_PostWithValidModel_Returns201Created()
     {
         // Arrange
         var dto = new SubmersibleDto
@@ -29,11 +29,23 @@ public sealed class SubmersibleControllerTests
             Condition = 1.0
         };
 
+        var dbResult = new Submersible
+        {
+            Id = 1,
+            VesselName = "test",
+            IsDeployed = false,
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        _submersibleServiceSub.AddSubmersibleAsync(Arg.Any<SubmersibleDto>()).Returns(dbResult);
+
         // Act
         var result = await _underTest.AddSubmersible(dto);
 
         // Assert
-        result.Should().BeOfType<OkResult>();
+        result.Should().BeOfType<CreatedAtActionResult>();
     }
 
     [Fact]

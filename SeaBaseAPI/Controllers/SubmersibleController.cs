@@ -14,7 +14,7 @@ public sealed class SubmersibleController : ControllerBase
     }
 
     [HttpPost]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AddSubmersible([FromBody] SubmersibleDto dto)
     {
@@ -23,8 +23,11 @@ public sealed class SubmersibleController : ControllerBase
             return BadRequest();
         }
 
-        await _submersibleService.AddSubmersibleAsync(dto);
-        return Ok();
+        var newEntry = await _submersibleService.AddSubmersibleAsync(dto);
+        return CreatedAtAction(
+            actionName: nameof(GetSubmersible), 
+            routeValues: new { id = newEntry.Id }, 
+            value: newEntry);
     }
 
     [HttpGet]

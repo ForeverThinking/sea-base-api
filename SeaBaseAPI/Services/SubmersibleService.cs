@@ -4,7 +4,7 @@ namespace SeaBaseAPI;
 
 public interface ISubmersibleService
 {
-    public Task AddSubmersibleAsync(SubmersibleDto dto);
+    public Task<Submersible> AddSubmersibleAsync(SubmersibleDto dto);
     public Task<ICollection<SubmersibleDto>> GetAllSubmersiblesAsync();
     public Task<SubmersibleDto?> GetSingleSubmersibleAsync(int id);
     public Task<bool> UpdateSubmersibleAsync(int id, SubmersibleDto dto);
@@ -19,7 +19,7 @@ public sealed class SubmersibleService : ISubmersibleService
         _context = context;
     }
 
-    public async Task AddSubmersibleAsync(SubmersibleDto dto)
+    public async Task<Submersible> AddSubmersibleAsync(SubmersibleDto dto)
     {
         var submersible = new Submersible
         {
@@ -30,6 +30,7 @@ public sealed class SubmersibleService : ISubmersibleService
 
         await _context.Submersibles.AddAsync(submersible);
         await _context.SaveChangesAsync();
+        return await _context.Submersibles.OrderBy(s => s.Id).LastAsync();
     }
 
     public async Task<ICollection<SubmersibleDto>> GetAllSubmersiblesAsync()

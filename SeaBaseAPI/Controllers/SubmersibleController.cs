@@ -59,4 +59,10 @@ public sealed class SubmersibleController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> UpdateSubmersible([FromRoute] int id, [FromBody] SubmersibleDto dto)
          => await _submersibleService.UpdateSubmersibleAsync(id, dto) ? Ok() : BadRequest();
+
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> DeleteSubmersible([FromBody] int id)
+        => await _submersibleService.DeleteSubmersibleAsync(id) ? NoContent() : BadRequest();    
 }

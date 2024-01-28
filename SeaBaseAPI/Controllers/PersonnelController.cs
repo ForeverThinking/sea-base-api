@@ -35,7 +35,7 @@ public sealed class PersonnelController : ControllerBase
         return Ok();
     }
 
-    [HttpPost]
+    [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> DeletePersonnel([FromBody] int id) 

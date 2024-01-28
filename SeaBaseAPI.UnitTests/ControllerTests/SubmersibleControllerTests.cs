@@ -165,4 +165,34 @@ public sealed class SubmersibleControllerTests
         // Assert
         result.Should().BeOfType<BadRequestResult>();
     }
+
+    [Fact]
+    public async Task DeletePersonnel_PostWithValidModel_Returns200Ok()
+    {
+        // Arrange
+        int testId = 1;
+
+        _submersibleServiceSub.DeleteSubmersibleAsync(Arg.Any<int>()).Returns(true);
+
+        // Act
+        var result = await _underTest.DeleteSubmersible(testId);
+
+        // Assert
+        result.Should().BeOfType<NoContentResult>();
+    }
+
+    [Fact]
+    public async Task DeletePersonnel_PostWithInalidModel_Returns400BadRequest()
+    {
+        // Arrange
+        int testId = 1;
+
+        _submersibleServiceSub.DeleteSubmersibleAsync(Arg.Any<int>()).Returns(false);
+
+        // Act
+        var result = await _underTest.DeleteSubmersible(testId);
+
+        // Assert
+        result.Should().BeOfType<BadRequestResult>();
+    }
 }

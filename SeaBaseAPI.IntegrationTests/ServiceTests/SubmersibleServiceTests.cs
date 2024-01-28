@@ -163,4 +163,48 @@ public sealed class SubmersibleServiceTests : TestUsingSqlite
         // Assert
         result.Should().BeFalse();
     }
+
+    [Fact]
+    public async Task DeletePersonnelAsync_PostId_ReturnsTrue()
+    {
+        // Arrange
+        var submersible = new Submersible()
+        {
+            Id = 1,
+            VesselName = "test",
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        Context.Submersibles.Add(submersible);
+
+        // Act
+        var result = await _underTest.DeleteSubmersibleAsync(1);
+
+        // Assert
+        result.Should().BeTrue();
+    }
+
+    [Fact]
+    public async Task DeletePersonnelAsync_PostInvalidId_ReturnsFalse()
+    {
+        // Arrange
+        var submersible = new Submersible()
+        {
+            Id = 1,
+            VesselName = "test",
+            Pilot = null,
+            Crew = null,
+            Condition = 1.0
+        };
+
+        Context.Submersibles.Add(submersible);
+
+        // Act
+        var result = await _underTest.DeleteSubmersibleAsync(2);
+
+        // Assert
+        result.Should().BeFalse();
+    }
 }
